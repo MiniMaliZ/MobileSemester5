@@ -9,40 +9,60 @@ class MateriWidgetApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Latihan Materi Widget',
       debugShowCheckedModeBanner: false,
-      home: DrawerDemo(),
+      home: DemoHome(),
     );
   }
 }
 
-class DrawerDemo extends StatelessWidget {
-  const DrawerDemo({super.key});
+class DemoHome extends StatefulWidget {
+  const DemoHome({super.key});
+  @override
+  State<DemoHome> createState() => _DemoHomeState();
+}
+
+class _DemoHomeState extends State<DemoHome> {
+  int _index = 0;
+  final _pages = const [
+    Center(child: Text('Tab Layout')),
+    Center(child: Text('Tab Media')),
+    Center(child: Text('Tab Buttons')),
+  ];
+  final _titles = const [
+    'Layout',
+    'Media',
+    'Buttons',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Drawer Demo')),
+      appBar: AppBar(title: Text(_titles[_index])),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [
-            const UserAccountsDrawerHeader(
+          children: const [
+            UserAccountsDrawerHeader(
               accountName: Text('Menu Latihan'),
               accountEmail: Text('Materi Widget Dasar'),
               currentAccountPicture: CircleAvatar(child: Icon(Icons.school)),
             ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Beranda'),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Pengaturan'),
-              onTap: () => Navigator.pop(context),
-            ),
           ],
         ),
       ),
-      body: const Center(child: Text('Geser dari kiri atau klik icon untuk membuka Drawer')),
+      body: _pages[_index],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _index,
+        onTap: (i) => setState(() => _index = i),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view), label: 'Layout'),
+          BottomNavigationBarItem(icon: Icon(Icons.image), label: 'Media'),
+          BottomNavigationBarItem(icon: Icon(Icons.smart_button), label: 'Buttons'),
+        ],
+      ),
     );
   }
 }
