@@ -9,31 +9,40 @@ class MateriWidgetApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Latihan Materi Widget',
       debugShowCheckedModeBanner: false,
-      home: ScaffoldAppBarDemo(),
+      home: DrawerDemo(),
     );
   }
 }
 
-class ScaffoldAppBarDemo extends StatelessWidget {
-  const ScaffoldAppBarDemo({super.key});
+class DrawerDemo extends StatelessWidget {
+  const DrawerDemo({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Scaffold + AppBar'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'Info',
-          ),
-        ],
+      appBar: AppBar(title: const Text('Drawer Demo')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const UserAccountsDrawerHeader(
+              accountName: Text('Menu Latihan'),
+              accountEmail: Text('Materi Widget Dasar'),
+              currentAccountPicture: CircleAvatar(child: Icon(Icons.school)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Beranda'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Pengaturan'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
       ),
-      body: const Center(child: Text('Halo dari Scaffold!')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      body: const Center(child: Text('Geser dari kiri atau klik icon untuk membuka Drawer')),
     );
   }
 }
