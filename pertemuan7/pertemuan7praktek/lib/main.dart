@@ -1,70 +1,75 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ListViewDemo());
+  runApp(const GridViewDemo());
 }
 
-class ListViewDemo extends StatelessWidget {
-  const ListViewDemo({super.key});
+class GridViewDemo extends StatelessWidget {
+  const GridViewDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Contoh data dinamis
-    final List<Map<String, String>> mataKuliah = [
-      {
-        'nama': 'Kecerdasan Bisnis',
-        'deskripsi': 'Mempelajari dashboard KPI dan analisis data bisnis'
-      },
-      {
-        'nama': 'Data Mining',
-        'deskripsi': 'Mengenali pola dan klasifikasi data menggunakan Python'
-      },
-      {
-        'nama': 'Metodologi Penelitian',
-        'deskripsi': 'Menyusun proposal dan laporan ilmiah'
-      },
-      {
-        'nama': 'Manajemen Rantai Pasok',
-        'deskripsi': 'Analisis distribusi dan supply chain'
-      },
-      {
-        'nama': 'K3 & Etika Profesi',
-        'deskripsi': 'Keselamatan kerja dan tanggung jawab profesional'
-      },
-    ];
+    // contoh data gambar/icon untuk grid
+    final List<Map<String, dynamic>> galeri = List.generate(12, (index) {
+      return {
+        'judul': 'Gambar ${index + 1}',
+        'ikon': Icons.image,
+        'warna': Colors.primaries[index % Colors.primaries.length],
+      };
+    });
 
     return MaterialApp(
-      title: 'ListView Demo',
+      title: 'GridView Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('ListView & List Item Widget'),
+          title: const Text('GridView (Galeri)'),
           backgroundColor: Colors.indigo,
         ),
-        body: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: mataKuliah.length,
-          itemBuilder: (context, index) {
-            final item = mataKuliah[index];
-            return Card(
-              elevation: 2,
-              margin: const EdgeInsets.symmetric(vertical: 6),
-              child: ListTile(
-                leading: const Icon(Icons.book, color: Colors.indigo),
-                title: Text(item['nama']!),
-                subtitle: Text(item['deskripsi']!),
-                trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+        body: Padding(
+          padding: const EdgeInsets.all(12),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // 3 kolom
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1,
+            ),
+            itemCount: galeri.length,
+            itemBuilder: (context, index) {
+              final item = galeri[index];
+              return GestureDetector(
                 onTap: () {
-                  // menampilkan snackbar saat diklik
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Kamu memilih: ${item['nama']}'),
+                      content: Text('Kamu memilih ${item['judul']}'),
                       duration: const Duration(seconds: 1),
                     ),
                   );
                 },
-              ),
-            );
-          },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: item['warna'].shade200,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(item['ikon'], size: 48, color: Colors.white),
+                      const SizedBox(height: 8),
+                      Text(
+                        item['judul'],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
