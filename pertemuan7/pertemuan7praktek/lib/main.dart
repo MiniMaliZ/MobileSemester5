@@ -1,99 +1,70 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const BuildLayoutDemo());
+  runApp(const ListViewDemo());
 }
 
-class BuildLayoutDemo extends StatelessWidget {
-  const BuildLayoutDemo({super.key});
+class ListViewDemo extends StatelessWidget {
+  const ListViewDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Contoh data dinamis
+    final List<Map<String, String>> mataKuliah = [
+      {
+        'nama': 'Kecerdasan Bisnis',
+        'deskripsi': 'Mempelajari dashboard KPI dan analisis data bisnis'
+      },
+      {
+        'nama': 'Data Mining',
+        'deskripsi': 'Mengenali pola dan klasifikasi data menggunakan Python'
+      },
+      {
+        'nama': 'Metodologi Penelitian',
+        'deskripsi': 'Menyusun proposal dan laporan ilmiah'
+      },
+      {
+        'nama': 'Manajemen Rantai Pasok',
+        'deskripsi': 'Analisis distribusi dan supply chain'
+      },
+      {
+        'nama': 'K3 & Etika Profesi',
+        'deskripsi': 'Keselamatan kerja dan tanggung jawab profesional'
+      },
+    ];
+
     return MaterialApp(
-      title: 'Membangun Layout',
+      title: 'ListView Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Layout Profil Mahasiswa'),
+          title: const Text('ListView & List Item Widget'),
           backgroundColor: Colors.indigo,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // ====== BAGIAN HEADER PROFIL ======
-              Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 36,
-                    backgroundColor: Colors.indigo,
-                    child: Text(
-                      'SD',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+        body: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: mataKuliah.length,
+          itemBuilder: (context, index) {
+            final item = mataKuliah[index];
+            return Card(
+              elevation: 2,
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              child: ListTile(
+                leading: const Icon(Icons.book, color: Colors.indigo),
+                title: Text(item['nama']!),
+                subtitle: Text(item['deskripsi']!),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+                onTap: () {
+                  // menampilkan snackbar saat diklik
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Kamu memilih: ${item['nama']}'),
+                      duration: const Duration(seconds: 1),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Sufyan Dwi Bagaskara',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 4),
-                      Text('D4 Sistem Informasi Bisnis - Polinema'),
-                    ],
-                  ),
-                ],
+                  );
+                },
               ),
-
-              const SizedBox(height: 20),
-
-              // ====== BAGIAN ABOUT ======
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.indigo.shade50,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'Tentang Saya:\nMahasiswa yang tertarik pada Flutter, Laravel, dan Data.',
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // ====== BAGIAN LISTVIEW MATA KULIAH ======
-              Expanded(
-                child: ListView(
-                  children: const [
-                    ListTile(
-                      leading: Icon(Icons.book, color: Colors.indigo),
-                      title: Text('Kecerdasan Bisnis'),
-                      subtitle: Text('Mempelajari konsep BI & dashboard KPI'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.book, color: Colors.indigo),
-                      title: Text('Data Mining'),
-                      subtitle: Text('Eksplorasi & prediksi data menggunakan Python'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.book, color: Colors.indigo),
-                      title: Text('Manajemen Rantai Pasok'),
-                      subtitle: Text('Studi kasus perusahaan dan distribusi produk'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.book, color: Colors.indigo),
-                      title: Text('Metodologi Penelitian'),
-                      subtitle: Text('Penulisan ilmiah dan penyusunan proposal'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
