@@ -1,74 +1,95 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const GridViewDemo());
+  runApp(const StylingPositioningDemo());
 }
 
-class GridViewDemo extends StatelessWidget {
-  const GridViewDemo({super.key});
+class StylingPositioningDemo extends StatelessWidget {
+  const StylingPositioningDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // contoh data gambar/icon untuk grid
-    final List<Map<String, dynamic>> galeri = List.generate(12, (index) {
-      return {
-        'judul': 'Gambar ${index + 1}',
-        'ikon': Icons.image,
-        'warna': Colors.primaries[index % Colors.primaries.length],
-      };
-    });
-
     return MaterialApp(
-      title: 'GridView Demo',
+      title: 'Styling & Positioning Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('GridView (Galeri)'),
+          title: const Text('Styling & Positioning'),
           backgroundColor: Colors.indigo,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 3 kolom
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1,
-            ),
-            itemCount: galeri.length,
-            itemBuilder: (context, index) {
-              final item = galeri[index];
-              return GestureDetector(
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Kamu memilih ${item['judul']}'),
-                      duration: const Duration(seconds: 1),
+        body: Center(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // ====== KARTU UTAMA ======
+              Container(
+                width: 260,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: Colors.indigo.shade50,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.indigo, width: 2),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 6,
+                      offset: Offset(2, 4),
                     ),
-                  );
-                },
+                  ],
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Kartu Profil Flutter',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Styling & positioning\nCihuyyyy',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+
+              // ====== BADGE (PAKAI ALIGN DAN PADDING) ======
+              Positioned(
+                top: -10,
+                right: -10,
                 child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: item['warna'].shade200,
+                    color: Colors.red.shade400,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(item['ikon'], size: 48, color: Colors.white),
-                      const SizedBox(height: 8),
-                      Text(
-                        item['judul'],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  child: const Text(
+                    'NEW',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
-              );
-            },
+              ),
+
+              // ====== HIASAN BULAT DI BAWAH ======
+              Positioned(
+                bottom: -20,
+                left: 100,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    color: Colors.indigo,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.star, color: Colors.white, size: 20),
+                ),
+              ),
+            ],
           ),
         ),
       ),
