@@ -1,91 +1,101 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MultiChildLayoutDemo());
+  runApp(const BuildLayoutDemo());
 }
 
-class MultiChildLayoutDemo extends StatelessWidget {
-  const MultiChildLayoutDemo({super.key});
+class BuildLayoutDemo extends StatelessWidget {
+  const BuildLayoutDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Multi-child Layout Demo',
+      title: 'Membangun Layout',
       home: Scaffold(
-        appBar: AppBar(title: const Text('Multi-child Layout')),
-        body: ListView(
+        appBar: AppBar(
+          title: const Text('Layout Profil Mahasiswa'),
+          backgroundColor: Colors.indigo,
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(16),
-          children: [
-            // ====== ROW ======
-            const Text(
-              'Row Example:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                ColorBox(color: Colors.red, label: 'A'),
-                ColorBox(color: Colors.green, label: 'B'),
-                ColorBox(color: Colors.blue, label: 'C'),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // ====== COLUMN ======
-            const Text(
-              'Column Example:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('• Item 1'),
-                Text('• Item 2'),
-                Text('• Item 3'),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // ====== STACK ======
-            const Text(
-              'Stack Example:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Center(
-              child: Stack(
-                alignment: Alignment.center,
+          child: Column(
+            children: [
+              // ====== BAGIAN HEADER PROFIL ======
+              Row(
                 children: [
-                  Container(width: 160, height: 160, color: Colors.amber),
-                  Container(width: 100, height: 100, color: Colors.orange),
-                  Container(width: 60, height: 60, color: Colors.deepOrange),
-                  const Text(
-                    'Tumpuk!',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  const CircleAvatar(
+                    radius: 36,
+                    backgroundColor: Colors.indigo,
+                    child: Text(
+                      'SD',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Sufyan Dwi Bagaskara',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4),
+                      Text('D4 Sistem Informasi Bisnis - Polinema'),
+                    ],
                   ),
                 ],
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              // ====== BAGIAN ABOUT ======
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.indigo.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Tentang Saya:\nMahasiswa yang tertarik pada Flutter, Laravel, dan Data.',
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ====== BAGIAN LISTVIEW MATA KULIAH ======
+              Expanded(
+                child: ListView(
+                  children: const [
+                    ListTile(
+                      leading: Icon(Icons.book, color: Colors.indigo),
+                      title: Text('Kecerdasan Bisnis'),
+                      subtitle: Text('Mempelajari konsep BI & dashboard KPI'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.book, color: Colors.indigo),
+                      title: Text('Data Mining'),
+                      subtitle: Text('Eksplorasi & prediksi data menggunakan Python'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.book, color: Colors.indigo),
+                      title: Text('Manajemen Rantai Pasok'),
+                      subtitle: Text('Studi kasus perusahaan dan distribusi produk'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.book, color: Colors.indigo),
+                      title: Text('Metodologi Penelitian'),
+                      subtitle: Text('Penulisan ilmiah dan penyusunan proposal'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class ColorBox extends StatelessWidget {
-  final Color color;
-  final String label;
-  const ColorBox({super.key, required this.color, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 60,
-      color: color,
-      alignment: Alignment.center,
-      child: Text(label, style: const TextStyle(color: Colors.white)),
     );
   }
 }
